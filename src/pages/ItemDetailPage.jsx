@@ -1,4 +1,7 @@
 import { useParams, useNavigate }  from 'react-router-dom'
+import { ArrowLeft, Tag, MapPin, Calendar, TrendingDown, ShoppingCart, Check } from 'lucide-react'
+import { addToList, selectIsInList } from '../app/store.js'
+import { useDispatch } from 'react-redux'
 import { useMemo, useState }        from 'react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
@@ -88,7 +91,7 @@ export default function ItemDetailPage() {
       <div className="container" style={{ padding: '4rem 2rem' }}>
         <ErrorBox title="Item not found" msg={`No commodity found with ID "${id}".`} />
         <button className="btn btn-dark" style={{ marginTop: '1rem' }} onClick={() => navigate('/prices')}>
-          ← Back to Prices
+          ← Back to Prices to Prices
         </button>
       </div>
     )
@@ -103,7 +106,7 @@ export default function ItemDetailPage() {
       <div className="detail-hero">
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <button className="detail-back" onClick={() => navigate(-1)}>
-            ← Back
+            ← Back to Prices
           </button>
 
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1.25rem', flexWrap: 'wrap' }}>
@@ -408,7 +411,7 @@ export default function ItemDetailPage() {
         {/* ── Back button ── */}
         <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
           <button className="btn btn-dark" onClick={() => navigate('/prices')}>
-            ← Back to All Prices
+            ← Back to Prices to All Prices
           </button>
         </div>
       </div>

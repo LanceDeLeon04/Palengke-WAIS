@@ -1,27 +1,32 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useSelector }                from 'react-redux'
 import { useScrolled }                from '../../hooks/index.js'
-import { PH_COMMODITIES }            from '../../app/store.js'
+import { PH_COMMODITIES }             from '../../app/store.js'
+import { selectShoppingCount }        from '../../app/store.js'
 import { formatPrice }                from '../../utils/helpers.js'
+import {
+  ShoppingCart, TrendingDown, Home, BarChart2,
+  ChefHat, Menu, Zap,
+} from 'lucide-react'
 
-// ─── TICKER ──────────────────────────────────────────────────
 export function PriceTicker() {
-  const items = PH_COMMODITIES.slice(0, 12)
-  const doubled = [...items, ...items] // duplicate for seamless loop
-
+  const items   = PH_COMMODITIES.slice(0, 12)
+  const doubled = [...items, ...items]
   return (
     <div className="ticker-wrap">
-      <span className="ticker-label">🔴 LIVE</span>
+      <span className="ticker-label"><Zap size={10} /> LIVE</span>
       <div className="ticker-track">
         {doubled.map((item, i) => {
           const diff = item.supermarket - item.palengke
-          const pct  = ((diff / item.supermarket) * 100).toFixed(0)
+          const pct  = ((diff/item.supermarket)*100).toFixed(0)
           return (
             <span key={`${item.id}-${i}`} className="ticker-item">
               <span>{item.name}</span>
               <strong>₱{item.palengke}/{item.unit}</strong>
-              <span className={diff > 0 ? 'arrow-dn' : 'arrow-up'}>
-                {diff > 0 ? `↓${pct}% vs SM` : '≈'}
-              </span>
+              {diff > 0
+                ? <span className="arrow-dn"><TrendingDown size={10} style={{display:'inline'}} /> {pct}% vs SM</span>
+                : <span className="arrow-up">≈</span>
+              }
             </span>
           )
         })}
@@ -30,31 +35,28 @@ export function PriceTicker() {
   )
 }
 
-// ─── NAVBAR ──────────────────────────────────────────────────
 export function Navbar() {
-  const scrolled  = useScrolled(12)
-  const navigate  = useNavigate()
+  const scrolled      = useScrolled(12)
+  const cartCount     = useSelector(selectShoppingCount)
 
   return (
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container">
           <Link to="/" className="nav-logo">
-            <div className="nav-logo-icon">🛒</div>
-            <span className="nav-logo-text">
-              Palengke<span>WAIS</span>
-            </span>
+            <div className="nav-logo-icon"><ShoppingCart size={20} color="#2EC99E" /></div>
+            <span className="nav-logo-text">Palengke<span>WAIS</span></span>
           </Link>
 
           <div className="nav-links">
-            <NavLink to="/" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-              🏠 Home
+            <NavLink to="/" end className={({isActive})=>`nav-link ${isActive?'active':''}`}>
+              <Home size={15} /> Home
             </NavLink>
-            <NavLink to="/prices" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-              📊 Prices
+            <NavLink to="/prices" className={({isActive})=>`nav-link ${isActive?'active':''}`}>
+              <BarChart2 size={15} /> Prices
             </NavLink>
-            <NavLink to="/recipes" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-              🍳 Recipes
+            <NavLink to="/recipes" className={({isActive})=>`nav-link ${isActive?'active':''}`}>
+              <ChefHat size={15} /> Recipes
               <span className="nav-badge">NEW</span>
             </NavLink>
           </div>
@@ -64,12 +66,15 @@ export function Navbar() {
             Live Prices
           </div>
 
-          <button className="nav-cta btn" onClick={() => navigate('/prices')}>
-            Check Prices →
-          </button>
+          {/* Shopping cart with badge */}
+          <NavLink to="/list" className={({isActive})=>`nav-cart-btn ${isActive?'active':''}`} title="Shopping List">
+            <ShoppingCart size={18} />
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          </NavLink>
 
-          {/* Mobile menu button */}
-          <button className="nav-menu-btn btn-ghost btn" aria-label="menu">☰</button>
+          <button className="nav-menu-btn btn-ghost btn" aria-label="menu">
+            <Menu size={20} />
+          </button>
         </div>
       </nav>
       <PriceTicker />
@@ -77,7 +82,6 @@ export function Navbar() {
   )
 }
 
-// ─── FOOTER ──────────────────────────────────────────────────
 export function Footer() {
   return (
     <footer className="footer">
@@ -85,7 +89,7 @@ export function Footer() {
         <div className="footer-inner">
           <div>
             <div className="footer-brand">Palengke<span>WAIS</span></div>
-            <div className="footer-copy" style={{ marginTop: '0.3rem' }}>
+            <div className="footer-copy" style={{marginTop:'0.3rem'}}>
               © {new Date().getFullYear()} · Open data for every Filipino
             </div>
           </div>
