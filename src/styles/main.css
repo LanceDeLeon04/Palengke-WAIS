@@ -55,6 +55,8 @@
 
   /* Layout */
   --nav-h: 68px;
+  --ticker-h: 34px;
+  --chrome-h: calc(var(--nav-h) + var(--ticker-h));
   --max-w: 1320px;
 }
 
@@ -96,7 +98,7 @@ ul, ol { list-style: none; }
 }
 .page-body {
   flex: 1;
-  padding-top: var(--nav-h);
+  padding-top: var(--chrome-h);
 }
 .container {
   width: 100%;
@@ -277,6 +279,8 @@ ul, ol { list-style: none; }
   overflow: hidden;
   white-space: nowrap;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
 }
 .ticker-label {
   display: inline-flex;
@@ -1136,7 +1140,7 @@ ul, ol { list-style: none; }
   .hero { padding: 4rem 0 3rem; }
 }
 @media (max-width: 768px) {
-  :root { --nav-h: 60px; }
+  :root { --nav-h: 60px; --ticker-h: 30px; }
   .container { padding: 0 1.1rem; }
   .nav-links { display: none; }
   .nav-menu-btn { display: flex; }
