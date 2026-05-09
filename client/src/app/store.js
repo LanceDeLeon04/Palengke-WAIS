@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+import authReducer from './authSlice.js'
 import { createApi, fetchBaseQuery }   from '@reduxjs/toolkit/query/react'
 import { PAGE_SIZE }                   from '../utils/helpers'
 
@@ -328,7 +329,7 @@ export const selectShoppingTotals = s=>{
 }
 
 export const store = configureStore({
-  reducer:{ commodity:commoditySlice.reducer, recipe:recipeSlice.reducer,
+  reducer:{ auth:authReducer, commodity:commoditySlice.reducer, recipe:recipeSlice.reducer,
     shopping:shoppingSlice.reducer,
     [nutritionApi.reducerPath]:nutritionApi.reducer, [mealApi.reducerPath]:mealApi.reducer },
   middleware:(get)=>get().concat(nutritionApi.middleware,mealApi.middleware),

@@ -1524,3 +1524,34 @@ ul, ol { list-style: none; }
   .sl-summary-pills { gap: 0.5rem; }
   .sl-pill { min-width: 120px; }
 }
+
+/* ════════════════════════════════════════
+   FORUM STYLES
+════════════════════════════════════════ */
+.forum-hero {
+  background: linear-gradient(135deg, var(--forest) 0%, var(--forest-2) 100%);
+  padding: 2.5rem 0;
+  position: relative; overflow: hidden;
+}
+
+/* Auth page inputs on focus */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--mint) !important;
+  box-shadow: 0 0 0 3px var(--mint-dim);
+}
+
+/* Code blocks in posts */
+code {
+  font-family: var(--font-mono);
+  background: var(--cream-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.87em;
+}
+
+/* Forum post card hover */
+.post-card-hover:hover {
+  border-color: var(--mint) !important;
+  box-shadow: var(--s2) !important;
+}

@@ -1,20 +1,19 @@
 {
+  "name": "palengke-wais",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Palengke WAIS - Philippine Commodity Price Tracker & Community Forum",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^2.11.2",
-    "axios": "^1.16.0",
-    "date-fns": "^4.1.0",
-    "lodash": "^4.18.1",
-    "lucide-react": "^1.14.0",
-    "react-redux": "^9.2.0",
-    "recharts": "^3.8.1"
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "db:migrate": "cd server && npm run db:migrate",
+    "db:seed": "cd server && npm run db:seed"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.0.1",
-    "vite": "^8.0.10"
+    "concurrently": "^8.2.2"
   }
 }

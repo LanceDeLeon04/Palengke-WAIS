@@ -1,16 +1,115 @@
-# React + Vite
+# 🛒 Palengke WAIS — Full Stack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Real-Time Philippine Commodity Price Tracker + Community Forum
 
-Currently, two official plugins are available:
+## Stack
+- **Frontend**: React 18 + Redux Toolkit + RTK Query + React Router v6 + Vite
+- **Backend**: Node.js + Express
+- **Database**: PostgreSQL
+- **Auth**: JWT (jsonwebtoken + bcryptjs)
+- **Deployment**: Railway
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
+- 📊 **80+ Commodity prices** — Palengke vs Supermarket, regional pricing, daily drift
+- 🥗 **Nutrition data** — OpenFoodFacts API (Filipino name translation)
+- 🍳 **Recipe Finder** — TheMealDB API (Filipino dish focus)
+- 🗺️ **Market Locator** — OpenStreetMap geolocation
+- 🛒 **Shopping List** — Download .txt/.csv
+- 💬 **Community Forum** — Reddit-style posts, comments, nested replies, voting
 
-## React Compiler
+## Local Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Install dependencies
+```bash
+npm run install:all
+```
 
-## Expanding the ESLint configuration
+### 2. Set up PostgreSQL
+Create a local database, then copy server/.env.example → server/.env and fill in DATABASE_URL.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 3. Run migrations + seed
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+### 4. Start dev servers
+```bash
+npm run dev
+# Frontend: http://localhost:5173
+# Backend:  http://localhost:4000
+```
+
+## Deploy to Railway
+
+### Step 1 — Push to GitHub
+```bash
+git init && git add . && git commit -m "Initial commit"
+# Create repo on GitHub, then:
+git remote add origin https://github.com/YOUR_USERNAME/palengke-wais.git
+git push -u origin main
+```
+
+### Step 2 — Create Railway project
+1. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub
+2. Select your repository
+
+### Step 3 — Add PostgreSQL
+1. In Railway dashboard → New → Database → PostgreSQL
+2. Railway auto-injects DATABASE_URL into your service
+
+### Step 4 — Set environment variables
+In Railway service → Variables → Add:
+```
+NODE_ENV=production
+JWT_SECRET=your-long-random-secret-here
+PORT=4000
+```
+
+### Step 5 — Run migrations on Railway
+In Railway → your service → Shell:
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+### Step 6 — Done!
+Railway auto-deploys on every git push.
+
+## Demo Accounts (after seeding)
+| Role  | Email                      | Password    |
+|-------|----------------------------|-------------|
+| Admin | admin@palengkewais.ph      | Admin@123   |
+| User  | nanay@example.com          | User@1234   |
+
+## Project Structure
+```
+palengke-wais/
+├── package.json          # Root scripts (dev, build, start)
+├── railway.toml          # Railway deployment config
+├── nixpacks.toml         # Build config
+├── server/
+│   ├── index.js          # Express app entry
+│   ├── db/
+│   │   ├── pool.js       # PostgreSQL pool
+│   │   ├── migrate.js    # Schema migration
+│   │   └── seed.js       # Demo data
+│   ├── middleware/
+│   │   └── auth.js       # JWT middleware
+│   └── routes/
+│       ├── auth.js       # Register, login, /me
+│       └── forum.js      # Posts, comments, votes
+└── client/
+    ├── src/
+    │   ├── api/forum.js       # Axios API client
+    │   ├── app/
+    │   │   ├── store.js       # Redux + RTK Query
+    │   │   └── authSlice.js   # Auth state
+    │   ├── pages/
+    │   │   ├── ForumPage.jsx
+    │   │   ├── PostDetailPage.jsx
+    │   │   ├── AuthPage.jsx
+    │   │   └── ... (price, recipe, map pages)
+    │   └── components/
+    └── dist/              # Built frontend (served by Express in prod)
+```
