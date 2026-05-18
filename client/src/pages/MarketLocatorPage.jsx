@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
 })
 
 // Overpass API — finds real OSM nodes near coordinates
-const OVERPASS = 'https://overpass-api.de/api/interpreter'
+const OVERPASS = 'https://overpass.kumi.systems/api/interpreter'
 
 async function fetchNearbyMarkets(lat, lon, radiusM = 3000) {
   const query = `
